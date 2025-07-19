@@ -1,0 +1,15 @@
+Route::get('/debug-user', function () {
+    $user = Auth::user();
+
+    if (!$user) {
+        return response()->json(['error' => 'Utilisateur non connecté']);
+    }
+
+    return response()->json([
+        'user_id' => $user->id,
+        'email' => $user->email,
+        'role_id' => $user->role_id,
+        'role' => $user->role ? $user->role->nom : null,
+        'role_raw' => $user->role ? $user->role->toArray() : null,
+    ]);
+})->middleware('auth');
