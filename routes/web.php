@@ -3,14 +3,16 @@
 // Contrôleurs principaux
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\SeanceController;
 use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\ProfesseurController;
 use App\Http\Controllers\CoordinateurController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\DashboardController;
 
-
+//Controlleurs Coordinateur
+use App\Http\Controllers\Coordinateur\SeanceController;
+use App\Http\Controllers\Coordinateur\DashboardCoordinateurController;
+use App\Http\Controllers\Coordinateur\GestionMatiereController;
 // Contrôleurs Admin
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GestionEtudiantController;
@@ -18,11 +20,14 @@ use App\Http\Controllers\Admin\GestionParentController;
 use App\Http\Controllers\Admin\GestionProfesseurController;
 use App\Http\Controllers\Admin\GestionCoordinateurController;
 use App\Http\Controllers\Admin\GestionAdminController;
-use App\Http\Controllers\Admin\GestionMatiereController;
 use App\Http\Controllers\Admin\GestionClasseController;
 use App\Http\Controllers\Admin\GestionAnneeAcademiqueController;
 use App\Http\Controllers\Admin\GestionTypeSeanceController;
 use App\Http\Controllers\Admin\GestionSemestreController;
+use App\Http\Controllers\Admin\GestionRoleController;
+use App\Http\Controllers\Admin\GestionStatutSeanceController;
+use App\Http\Controllers\Admin\GestionStatutPresenceController;
+use App\Http\Controllers\Admin\GestionAnneeClasseController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,22 +35,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route de debug pour vérifier l'utilisateur connecté
-// Route::get('/debug-user', function () {
-//     $user = Auth::user();
-
-//     if (!$user) {
-//         return response()->json(['error' => 'Utilisateur non connecté']);
-//     }
-
-//     return response()->json([
-//         'user_id' => $user->id,
-//         'email' => $user->email,
-//         'role_id' => $user->role_id,
-//         'role' => $user->role ? $user->role->nom : null,
-//         'role_raw' => $user->role ? $user->role->toArray() : null,
-//     ]);
-// })->middleware('auth');
 
 // Routes protégées par authentification
 Route::middleware(['auth'])->group(function () {
@@ -61,11 +50,19 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['Coordinateur'])->group(function () {
-        Route::get('/coordinateur/dashboard', [CoordinateurController::class, 'dashboard'])->name('coordinateur.dashboard');
-        Route::resource('seances', SeanceController::class);
+        Route::get('/coordinateur/dashboard', [DashboardCoordinateurController::class, 'index'])->name('coordinateur.dashboard');
+        Route::resource('gestion-seances', SeanceController::class);
+        Route::resource('matieres', GestionMatiereController::class);
+
+        // Routes supplémentaires pour les séances
+        Route::get('/seances/prochaines', [SeanceController::class, 'prochaines'])->name('seances.prochaines');
+        Route::get('/seances/historique', [SeanceController::class, 'historique'])->name('seances.historique');
+        Route::get('/seances/aujourd-hui', [SeanceController::class, 'aujourdhui'])->name('seances.aujourdhui');
+        Route::get('/seances/cette-semaine', [SeanceController::class, 'cetteSemaine'])->name('seances.cette-semaine');
     });
 
     Route::middleware(['Parent'])->group(function () {
+
         Route::get('/parent/dashboard', [ParentController::class, 'dashboard'])->name('parent.dashboard');
     });
 
@@ -78,12 +75,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('gestion-professeurs', GestionProfesseurController::class);
         Route::resource('gestion-coordinateurs', GestionCoordinateurController::class);
         Route::resource('gestion-admins', GestionAdminController::class);
-        Route::resource('gestion-matieres', GestionMatiereController::class);
         Route::resource('gestion-classes', GestionClasseController::class);
         Route::resource('gestion-annees-academiques', GestionAnneeAcademiqueController::class);
         Route::resource('gestion-types-seances', GestionTypeSeanceController::class);
         Route::resource('gestion-semestres', GestionSemestreController::class);
-
+        Route::resource('gestion-roles', GestionRoleController::class);
+        Route::resource('gestion-statuts-seances', GestionStatutSeanceController::class);
+        Route::resource('gestion-statuts-presences', GestionStatutPresenceController::class);
+        Route::resource('gestion-annees-classes', GestionAnneeClasseController::class);
         // Routes pour l'assignation d'étudiants aux parents
         Route::post('/gestion-parents/assign-etudiant', [GestionParentController::class, 'assignEtudiant'])->name('gestion-parents.assign-etudiant');
         Route::post('/gestion-parents/unassign-etudiant', [GestionParentController::class, 'unassignEtudiant'])->name('gestion-parents.unassign-etudiant');

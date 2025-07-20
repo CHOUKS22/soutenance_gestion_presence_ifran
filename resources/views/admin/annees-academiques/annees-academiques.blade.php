@@ -61,30 +61,7 @@
             </div>
         </div>
 
-        <!-- Filtres -->
-        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher</label>
-                    <input type="text" placeholder="Rechercher une année académique..."
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Toutes les années</option>
-                        <option>En cours</option>
-                        <option>À venir</option>
-                        <option>Terminées</option>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-                        <i class="fas fa-search mr-2"></i>Filtrer
-                    </button>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Liste des années académiques -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -146,16 +123,16 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                    <a href="{{ route('gestion-annees-academiques.show', $annee) }}"
+                                    <a href="{{ route('gestion-annees-academiques.show', ['gestion_annees_academique' => $annee->id]) }}"
                                        class="text-blue-600 hover:text-blue-900 transition-colors">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('gestion-annees-academiques.edit', $annee) }}"
+                                    <a href="{{ route('gestion-annees-academiques.edit', ['gestion_annees_academique' => $annee->id]) }}"
                                        class="text-yellow-600 hover:text-yellow-900 transition-colors">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('gestion-annees-academiques.destroy', $annee) }}"
-                                          class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette année académique ?')">
+                                    <form method="POST" action="{{ route('gestion-annees-academiques.destroy', ['gestion_annees_academique' => $annee->id]) }}"
+                                          class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette année académique ?')">>
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900 transition-colors">

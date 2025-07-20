@@ -1,40 +1,40 @@
-@extends('layouts.admin')
+@extends('layouts.coordinateur')
+
+@section('title', 'Nouvelle Séance')
+@section('subtitle', 'Planification d\'une nouvelle séance de cours')
 
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <div class="p-6">
-        <!-- Header -->
+        <!-- En-tête de la page -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
-                <a href="{{ route('gestion-seances.index') }}"
-                   class="text-gray-600 hover:text-gray-800 transition-colors">
+                <a href="{{ route('gestion-seances.index') }}" class="text-gray-600 hover:text-gray-800">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </a>
                 <h1 class="text-3xl font-bold text-gray-800">Nouvelle Séance</h1>
             </div>
         </div>
 
-        <!-- Formulaire -->
-        <div class="bg-white rounded-xl shadow-md p-8">
-            <form method="POST" action="{{ route('gestion-seances.store') }}" class="space-y-6">
+        <!--Créer séance-->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <form method="POST" action="{{ route('gestion-seances.store') }}" class="space-y-8">
                 @csrf
-
-                <!-- Section: Informations principales -->
-                <div class="border-b border-gray-200 pb-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                        <i class="fas fa-info-circle mr-3 text-blue-600"></i>
-                        Informations Principales
+                <div class="pb-6 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                        Informations de la séance
                     </h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-4">
                         <!-- Classe -->
                         <div>
-                            <label for="classe_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="classe_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Classe <span class="text-red-500">*</span>
                             </label>
                             <select name="classe_id" id="classe_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('classe_id') border-red-500 @enderror">
-                                <option value="">Sélectionner une classe</option>
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('classe_id') border-red-400 @enderror">
+                                <option value="">Choisir une classe</option>
                                 @foreach($classes as $classe)
                                     <option value="{{ $classe->id }}" {{ old('classe_id') == $classe->id ? 'selected' : '' }}>
                                         {{ $classe->nom }}
@@ -42,37 +42,37 @@
                                 @endforeach
                             </select>
                             @error('classe_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Matière -->
+                        <!--Matière-->
                         <div>
-                            <label for="matiere_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="matieres_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Matière <span class="text-red-500">*</span>
                             </label>
-                            <select name="matiere_id" id="matiere_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('matiere_id') border-red-500 @enderror">
-                                <option value="">Sélectionner une matière</option>
+                            <select name="matieres_id" id="matieres_id" required
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('matieres_id') border-red-400 @enderror">
+                                <option value="">Choisir une matière</option>
                                 @foreach($matieres as $matiere)
-                                    <option value="{{ $matiere->id }}" {{ old('matiere_id') == $matiere->id ? 'selected' : '' }}>
+                                    <option value="{{ $matiere->id }}" {{ old('matieres_id') == $matiere->id ? 'selected' : '' }}>
                                         {{ $matiere->nom }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('matiere_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @error('matieres_id')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Professeur -->
+                        <!--Professeur-->
                         <div>
-                            <label for="professeur_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="professeur_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Professeur <span class="text-red-500">*</span>
                             </label>
                             <select name="professeur_id" id="professeur_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('professeur_id') border-red-500 @enderror">
-                                <option value="">Sélectionner un professeur</option>
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('professeur_id') border-red-400 @enderror">
+                                <option value="">Choisir un professeur</option>
                                 @foreach($professeurs as $professeur)
                                     <option value="{{ $professeur->id }}" {{ old('professeur_id') == $professeur->id ? 'selected' : '' }}>
                                         {{ $professeur->user->nom }} {{ $professeur->user->prenom }}
@@ -80,56 +80,56 @@
                                 @endforeach
                             </select>
                             @error('professeur_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Type de séance -->
+                        <!--Type de séance-->
                         <div>
-                            <label for="type_seance_id" class="block text-sm font-medium text-gray-700 mb-2">
-                                Type de Séance <span class="text-red-500">*</span>
+                            <label for="type_seance_id" class="block text-sm font-medium text-gray-700 mb-1">
+                                Type <span class="text-red-500">*</span>
                             </label>
                             <select name="type_seance_id" id="type_seance_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('type_seance_id') border-red-500 @enderror">
-                                <option value="">Sélectionner un type</option>
-                                @foreach($types_seances as $type)
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('type_seance_id') border-red-400 @enderror">
+                                <option value="">Choisir le type</option>
+                                @foreach($types as $type)
                                     <option value="{{ $type->id }}" {{ old('type_seance_id') == $type->id ? 'selected' : '' }}>
                                         {{ $type->nom }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('type_seance_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Statut -->
+                        <!--Statut-->
                         <div>
-                            <label for="statut_seance_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="statut_seance_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Statut <span class="text-red-500">*</span>
                             </label>
                             <select name="statut_seance_id" id="statut_seance_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('statut_seance_id') border-red-500 @enderror">
-                                <option value="">Sélectionner un statut</option>
-                                @foreach($statuts_seances as $statut)
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('statut_seance_id') border-red-400 @enderror">
+                                <option value="">Choisir le statut</option>
+                                @foreach($statuts as $statut)
                                     <option value="{{ $statut->id }}" {{ old('statut_seance_id') == $statut->id ? 'selected' : '' }}>
-                                        {{ $statut->nom }}
+                                        {{ $statut->libelle }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('statut_seance_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Semestre -->
+                        <!--Semestre-->
                         <div>
-                            <label for="semestre_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="semestre_id" class="block text-sm font-medium text-gray-700 mb-1">
                                 Semestre <span class="text-red-500">*</span>
                             </label>
                             <select name="semestre_id" id="semestre_id" required
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('semestre_id') border-red-500 @enderror">
-                                <option value="">Sélectionner un semestre</option>
+                                    class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('semestre_id') border-red-400 @enderror">
+                                <option value="">Choisir le semestre</option>
                                 @foreach($semestres as $semestre)
                                     <option value="{{ $semestre->id }}" {{ old('semestre_id') == $semestre->id ? 'selected' : '' }}>
                                         {{ $semestre->libelle }}
@@ -137,78 +137,58 @@
                                 @endforeach
                             </select>
                             @error('semestre_id')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Planning -->
-                <div class="border-b border-gray-200 pb-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                        <i class="fas fa-calendar-alt mr-3 text-green-600"></i>
-                        Planning
+                <!-- Dates et horaires -->
+                <div class="pb-6 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-clock mr-2 text-green-500"></i>
+                        Horaires
                     </h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Date et heure de début -->
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <!-- Date début -->
                         <div>
-                            <label for="date_debut" class="block text-sm font-medium text-gray-700 mb-2">
-                                Date et Heure de Début <span class="text-red-500">*</span>
+                            <label for="date_debut" class="block text-sm font-medium text-gray-700 mb-1">
+                                Date et heure de début <span class="text-red-500">*</span>
                             </label>
                             <input type="datetime-local" name="date_debut" id="date_debut" required
                                    value="{{ old('date_debut') }}"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_debut') border-red-500 @enderror">
+                                   class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('date_debut') border-red-400 @enderror">
                             @error('date_debut')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Date et heure de fin -->
+                        <!-- Date fin -->
                         <div>
-                            <label for="date_fin" class="block text-sm font-medium text-gray-700 mb-2">
-                                Date et Heure de Fin <span class="text-red-500">*</span>
+                            <label for="date_fin" class="block text-sm font-medium text-gray-700 mb-1">
+                                Date et heure de fin <span class="text-red-500">*</span>
                             </label>
                             <input type="datetime-local" name="date_fin" id="date_fin" required
                                    value="{{ old('date_fin') }}"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('date_fin') border-red-500 @enderror">
+                                   class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('date_fin') border-red-400 @enderror">
                             @error('date_fin')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Description -->
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                        <i class="fas fa-file-alt mr-3 text-purple-600"></i>
-                        Description (Optionnel)
-                    </h2>
-
-                    <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
-                            Description de la séance
-                        </label>
-                        <textarea name="description" id="description" rows="4"
-                                  placeholder="Décrivez le contenu ou les objectifs de cette séance..."
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
-                        @error('description')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Boutons d'action -->
-                <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                <!-- Actions -->
+                <div class="flex justify-end space-x-3 pt-4">
                     <a href="{{ route('gestion-seances.index') }}"
-                       class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                       class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50">
                         Annuler
                     </a>
                     <button type="submit"
-                            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center space-x-1">
                         <i class="fas fa-save"></i>
-                        <span>Créer la Séance</span>
+                        <span>Enregistrer</span>
                     </button>
                 </div>
             </form>
@@ -219,29 +199,31 @@
 
 @section('scripts')
 <script>
-    // Validation en temps réel des dates
-    document.getElementById('date_debut').addEventListener('change', function() {
-        const dateDebut = new Date(this.value);
-        const dateFin = document.getElementById('date_fin');
+    // Gestion des dates
+    const dateDebut = document.getElementById('date_debut');
+    const dateFin = document.getElementById('date_fin');
+
+    dateDebut.addEventListener('change', function() {
+        const debut = new Date(this.value);
 
         if (dateFin.value) {
-            const dateFinValue = new Date(dateFin.value);
-            if (dateFinValue <= dateDebut) {
-                // Ajouter 1 heure à la date de début pour la date de fin
-                const nouvelleDate = new Date(dateDebut.getTime() + 60 * 60 * 1000);
-                dateFin.value = nouvelleDate.toISOString().slice(0, 16);
+            const fin = new Date(dateFin.value);
+            if (fin <= debut) {
+                // Ajouter une heure par défaut
+                const nouvelleFin = new Date(debut.getTime() + (60 * 60 * 1000));
+                dateFin.value = nouvelleFin.toISOString().slice(0, 16);
             }
         }
 
-        // Définir la date minimum pour la date de fin
+        // Mettre à jour la date min pour la fin
         dateFin.min = this.value;
     });
 
-    document.getElementById('date_fin').addEventListener('change', function() {
-        const dateDebut = document.getElementById('date_debut').value;
+    dateFin.addEventListener('change', function() {
+        const debut = dateDebut.value;
 
-        if (dateDebut && new Date(this.value) <= new Date(dateDebut)) {
-            alert('La date de fin doit être postérieure à la date de début.');
+        if (debut && new Date(this.value) <= new Date(debut)) {
+            alert('La date de fin doit être après la date de début');
             this.value = '';
         }
     });

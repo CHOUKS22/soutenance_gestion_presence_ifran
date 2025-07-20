@@ -15,6 +15,6 @@ class Semestre extends Model
 
     public function anneeAcademique()
     {
-        return $this->belongsTo(Annee_Academique::class);
+        return $this->belongsTo(Annee_academique::class, 'annee_academique_id');
     }
 }

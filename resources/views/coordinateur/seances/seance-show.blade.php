@@ -1,4 +1,7 @@
-@extends('layouts.admin')
+@extends('layouts.coordinateur')
+
+@section('title', 'Détails de la Séance')
+@section('subtitle', 'Informations complètes de la séance')
 
 @section('content')
 <div class="min-h-screen bg-gray-50">

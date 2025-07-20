@@ -15,4 +15,12 @@ class Coordinateur extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Relation avec les années-classes
+     */
+    public function anneesClasses()
+    {
+        return $this->hasMany(AnneeClasse::class, 'coordinateur_id');
+    }
 }

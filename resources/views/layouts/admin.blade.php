@@ -71,13 +71,64 @@
         .sidebar-item i {
             width: 20px;
             text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Better text wrapping for long menu items */
+        .sidebar-item span {
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        /* Prevent sidebar content overflow */
+        .sidebar-nav {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        /* Section headers spacing */
+        .sidebar-section-header {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+
+        /* Improved hover effect */
+        .sidebar-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(3px);
+        }
+
+        /* Ensure proper spacing and alignment */
+        .sidebar-item {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Scrollbar improvements for sidebar */
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <div class="w-80 bg-gradient-to-b from-blue-900 to-blue-800 text-white fixed h-full shadow-2xl overflow-y-auto">
+        <div class="w-80 bg-gradient-to-b from-blue-900 to-blue-800 text-white fixed h-full shadow-2xl overflow-y-auto z-40">
             <div class="p-6 pb-8">
                 <!-- Logo -->
                 <div class="flex items-center mb-8">
@@ -91,16 +142,16 @@
                 </div>
 
                 <!-- Navigation -->
-                <nav class="space-y-1 pb-20">
+                <nav class="sidebar-nav space-y-1 pb-8">
                     <!-- Accueil -->
                     <a href="{{ route('admin.dashboard') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('admin.dashboard') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-home mr-4 text-lg w-5"></i>
+                        <i class="fas fa-home mr-4 text-lg"></i>
                         <span class="font-medium">Accueil</span>
                     </a>
 
                     <!-- Section: Gestion des Utilisateurs -->
-                    <div class="mt-6 mb-3">
-                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider px-4 py-2">
+                    <div class="sidebar-section-header">
+                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider">
                             <i class="fas fa-users mr-2 text-sm"></i>
                             <span>Gestion des Utilisateurs</span>
                         </div>
@@ -108,93 +159,105 @@
 
                     <!-- Utilisateurs -->
                     <a href="{{ route('users.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('users.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-users-cog mr-4 text-lg w-5"></i>
+                        <i class="fas fa-users-cog mr-4 text-lg"></i>
                         <span class="font-medium">Utilisateurs</span>
+                    </a>
+
+                    <!-- Rôles -->
+                    <a href="{{ route('gestion-roles.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-roles.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
+                        <i class="fas fa-user-tag mr-4 text-lg"></i>
+                        <span class="font-medium">Rôles</span>
                     </a>
 
                     <!-- Étudiants -->
                     <a href="{{ route('gestion-etudiants.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-etudiants.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-user-graduate mr-4 text-lg w-5"></i>
+                        <i class="fas fa-user-graduate mr-4 text-lg"></i>
                         <span class="font-medium">Étudiants</span>
                     </a>
 
                     <!-- Parents -->
                     <a href="{{ route('gestion-parents.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-parents.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-user-friends mr-4 text-lg w-5"></i>
+                        <i class="fas fa-user-friends mr-4 text-lg"></i>
                         <span class="font-medium">Parents</span>
                     </a>
 
                     <!-- Professeurs -->
                     <a href="{{ route('gestion-professeurs.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-professeurs.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-chalkboard-teacher mr-4 text-lg w-5"></i>
+                        <i class="fas fa-chalkboard-teacher mr-4 text-lg"></i>
                         <span class="font-medium">Professeurs</span>
                     </a>
 
                     <!-- Coordinateurs -->
                     <a href="{{ route('gestion-coordinateurs.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-coordinateurs.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-user-tie mr-4 text-lg w-5"></i>
+                        <i class="fas fa-user-tie mr-4 text-lg"></i>
                         <span class="font-medium">Coordinateurs</span>
                     </a>
 
                     <!-- Admins -->
                     <a href="{{ route('gestion-admins.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-admins.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-user-shield mr-4 text-lg w-5"></i>
+                        <i class="fas fa-user-shield mr-4 text-lg"></i>
                         <span class="font-medium">Administrateurs</span>
                     </a>
 
                     <!-- Section: Gestion Académique -->
-                    <div class="mt-6 mb-3">
-                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider px-4 py-2">
+                    <div class="sidebar-section-header">
+                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider">
                             <i class="fas fa-graduation-cap mr-2 text-sm"></i>
                             <span>Gestion Académique</span>
                         </div>
                     </div>
 
-                    <!-- Séances -->
-                    <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-seances.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-calendar-alt mr-4 text-lg w-5"></i>
-                        <span class="font-medium">Séances</span>
-                    </a>
-
-                    <!-- Matières -->
-                    <a href="{{ route('gestion-matieres.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-matieres.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-book mr-4 text-lg w-5"></i>
-                        <span class="font-medium">Matières</span>
-                    </a>
-
                     <!-- Classes -->
                     <a href="{{ route('gestion-classes.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-classes.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-school mr-4 text-lg w-5"></i>
+                        <i class="fas fa-school mr-4 text-lg"></i>
                         <span class="font-medium">Classes</span>
+                    </a>
+
+                    <!-- Années-Classes -->
+                    <a href="{{ route('gestion-annees-classes.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-annees-classes.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
+                        <i class="fas fa-link mr-4 text-lg"></i>
+                        <span class="font-medium">Années-Classes</span>
                     </a>
 
                     <!-- Années académiques -->
                     <a href="{{ route('gestion-annees-academiques.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-annees-academiques.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-calendar-check mr-4 text-lg w-5"></i>
+                        <i class="fas fa-calendar-check mr-4 text-lg"></i>
                         <span class="font-medium">Années académiques</span>
                     </a>
 
                     <!-- Semestres -->
                     <a href="{{ route('gestion-semestres.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-semestres.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-calendar-week mr-4 text-lg w-5"></i>
+                        <i class="fas fa-calendar-week mr-4 text-lg"></i>
                         <span class="font-medium">Semestres</span>
                     </a>
 
-                    <!-- Section: Paramètres -->
-                    <div class="mt-6 mb-3">
-                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider px-4 py-2">
+                    <!-- Section: Paramètres des Séances -->
+                    <div class="sidebar-section-header">
+                        <div class="flex items-center text-xs font-semibold text-blue-300 uppercase tracking-wider">
                             <i class="fas fa-cogs mr-2 text-sm"></i>
-                            <span>Paramètres</span>
+                            <span>Paramètres des Séances</span>
                         </div>
                     </div>
 
                     <!-- Types de séances -->
                     <a href="{{ route('gestion-types-seances.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-types-seances.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
-                        <i class="fas fa-tags mr-4 text-lg w-5"></i>
+                        <i class="fas fa-tags mr-4 text-lg"></i>
                         <span class="font-medium">Types de séances</span>
                     </a>
 
-                    <!-- Rapports -->
+                    <!-- Statuts de séances -->
+                    <a href="{{ route('gestion-statuts-seances.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-statuts-seances.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
+                        <i class="fas fa-flag mr-4 text-lg"></i>
+                        <span class="font-medium">Statuts de séances</span>
+                    </a>
+
+                    <!-- Statuts de présences -->
+                    <a href="{{ route('gestion-statuts-presences.index') }}" class="sidebar-item flex items-center px-4 py-3 rounded-xl {{ request()->routeIs('gestion-statuts-presences.*') ? 'active' : 'text-blue-200 hover:text-white hover:bg-blue-700' }} transition-all duration-200">
+                        <i class="fas fa-user-check mr-4 text-lg"></i>
+                        <span class="font-medium">Statuts de présences</span>
+                    </a>
+
+                    {{-- <!-- Rapports -->
                     <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-xl text-blue-200 hover:text-white hover:bg-blue-700 transition-all duration-200">
                         <i class="fas fa-chart-bar mr-4 text-lg w-5"></i>
                         <span class="font-medium">Rapports</span>
@@ -204,15 +267,15 @@
                     <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-xl text-blue-200 hover:text-white hover:bg-blue-700 transition-all duration-200">
                         <i class="fas fa-cog mr-4 text-lg w-5"></i>
                         <span class="font-medium">Configuration</span>
-                    </a>
+                    </a> --}}
                 </nav>
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 ml-80">
+        <div class="flex-1 ml-80 relative z-10">
             <!-- Header -->
-            <header class="bg-white shadow-sm border-b">
+            <header class="bg-white shadow-sm border-b sticky top-0 z-30">
                 <div class="px-8 py-6 flex justify-between items-center">
                     <div class="flex items-center">
                         <div class="relative">

@@ -11,13 +11,13 @@ class GestionSemestreController extends Controller
 {
     public function index()
     {
-        $semestres = Semestre::with('annee_academique')->orderBy('created_at', 'desc')->paginate(10);
+        $semestres = Semestre::with('anneeAcademique')->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.semestres.semestres', compact('semestres'));
     }
 
     public function show(Semestre $semestre)
     {
-        $semestre->load('annee_academique');
+        $semestre->load('anneeAcademique');
         return view('admin.semestres.semestre-show', compact('semestre'));
     }
 

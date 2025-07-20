@@ -30,6 +30,23 @@ class Etudiant extends Model
         return $this->belongsToMany(Parent_model::class, 'etudiants_parents', 'etudiant_id', 'parent_id');
     }
 
+    /**
+     * Relation many-to-many avec les années-classes
+     */
+    public function anneesClasses()
+    {
+        return $this->belongsToMany(AnneeClasse::class, 'annee_classe_etudiant', 'etudiant_id', 'annee_classe_id')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Relation : Un étudiant peut avoir plusieurs présences
+     */
+    public function presences()
+    {
+        return $this->hasMany(Presence::class);
+    }
+
     public function getAgeAttribute()
     {
         if ($this->date_naissance) {

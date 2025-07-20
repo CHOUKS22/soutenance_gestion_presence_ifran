@@ -46,4 +46,12 @@ class Seance extends Model
     {
         return $this->belongsTo(Type_seance::class, 'type_seance_id');
     }
+
+    /**
+     * Relation : Une séance peut avoir plusieurs présences
+     */
+    public function presences()
+    {
+        return $this->hasMany(Presence::class);
+    }
 }

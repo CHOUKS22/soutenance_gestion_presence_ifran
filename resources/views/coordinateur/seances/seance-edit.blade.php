@@ -1,4 +1,7 @@
-@extends('layouts.admin')
+@extends('layouts.coordinateur')
+
+@section('title', 'Modifier la Séance')
+@section('subtitle', 'Modification des informations de la séance')
 
 @section('content')
 <div class="min-h-screen bg-gray-50">
@@ -93,7 +96,7 @@
                             <select name="type_seance_id" id="type_seance_id" required
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('type_seance_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un type</option>
-                                @foreach($types_seances as $type)
+                                @foreach($types as $type)
                                     <option value="{{ $type->id }}" {{ (old('type_seance_id', $seance->type_seance_id) == $type->id) ? 'selected' : '' }}>
                                         {{ $type->nom }}
                                     </option>
@@ -112,9 +115,9 @@
                             <select name="statut_seance_id" id="statut_seance_id" required
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('statut_seance_id') border-red-500 @enderror">
                                 <option value="">Sélectionner un statut</option>
-                                @foreach($statuts_seances as $statut)
+                                @foreach($statuts as $statut)
                                     <option value="{{ $statut->id }}" {{ (old('statut_seance_id', $seance->statut_seance_id) == $statut->id) ? 'selected' : '' }}>
-                                        {{ $statut->nom }}
+                                        {{ $statut->libelle }}
                                     </option>
                                 @endforeach
                             </select>
